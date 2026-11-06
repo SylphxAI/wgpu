@@ -1109,7 +1109,15 @@ impl super::Queue {
                     unsafe { gl.bind_framebuffer(glow::DRAW_FRAMEBUFFER, None) };
                 } else {
                     unsafe { gl.bind_framebuffer(glow::DRAW_FRAMEBUFFER, Some(self.draw_fbo)) };
+                    // Android Emulator's GL client tracks texture and renderbuffer attachments
+                    // separately, so detach both types before reusing the framebuffer.
                     unsafe {
+                        gl.framebuffer_renderbuffer(
+                            glow::DRAW_FRAMEBUFFER,
+                            glow::DEPTH_STENCIL_ATTACHMENT,
+                            glow::RENDERBUFFER,
+                            None,
+                        );
                         gl.framebuffer_texture_2d(
                             glow::DRAW_FRAMEBUFFER,
                             glow::DEPTH_STENCIL_ATTACHMENT,
@@ -1121,6 +1129,12 @@ impl super::Queue {
                     for i in 0..self.shared.limits.max_color_attachments {
                         let target = glow::COLOR_ATTACHMENT0 + i;
                         unsafe {
+                            gl.framebuffer_renderbuffer(
+                                glow::DRAW_FRAMEBUFFER,
+                                target,
+                                glow::RENDERBUFFER,
+                                None,
+                            );
                             gl.framebuffer_texture_2d(
                                 glow::DRAW_FRAMEBUFFER,
                                 target,

@@ -204,10 +204,10 @@ required-features = ["gles"]
 #####################
 
 [dependencies]
-naga.workspace = true
-wgpu-naga-bridge.workspace = true
-naga-types = { workspace = true }
-wgpu-types = { workspace = true, default-features = false }
+naga = { version = "30.0.0" }
+wgpu-naga-bridge = { version = "30.0.0" }
+naga-types = { version = "30.0.0" }
+wgpu-types = { version = "30.0.0", default-features = false }
 
 # Dependencies in the lib and empty backend
 bitflags.workspace = true
@@ -355,7 +355,7 @@ cfg_aliases.workspace = true
 [dev-dependencies]
 env_logger.workspace = true
 glam.workspace = true # for ray-traced-triangle example
-naga = { workspace = true, features = ["wgsl-in", "termcolor"] }
+naga = { version = "30.0.0", features = ["wgsl-in", "termcolor"] }
 winit.workspace = true # for "halmark" example
 
 ### Platform: Windows + MacOS + Linux for "raw-gles" example ###
